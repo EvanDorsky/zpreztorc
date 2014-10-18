@@ -11,3 +11,100 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+set -o vi
+
+# Set custom theme
+autoload -Uz promptinit
+promptinit
+prompt enigmoid
+
+alias pulseOn='cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/; sudo bash pulseOn; cd --'
+alias pulseOff='cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/; sudo bash pulseOff; cd --'
+alias zrc='vim ~/.zshrc'
+alias zre='. ~/.zshrc'
+alias b='brew'
+alias o='open'
+alias p='python3'
+alias ip='ipython --matplotlib'
+alias q='qlmanage -p '
+alias calc='dc'
+alias j='julia'
+alias ij='cd ~/Notebook; ipython notebook --profile julia'
+
+alias ssheducanontest='ssh -R 52698:localhost:52698 educanontest'
+alias rrshell='ssh rshell'
+alias mat='matlab -nodesktop -nosplash'
+
+alias swatch='stylus -w stylus --out stylesheets'
+alias jerve='bundle exec jekyll serve -w'
+alias catch='coffee -wco js coffee'
+
+alias evan='cd ~/Git/enigmoid.github.io; swatch & catch & jerve'
+
+alias jatch='jade -w jade --out .'
+alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
+
+alias pandora='pianokeys && pianobar'
+
+# Basic aliases
+alias c='clear'
+alias l='ls -Gh'
+alias ll='ls -Glh'
+alias la='ls -Glah'
+alias cl='c && l'
+alias cll='c && ll'
+alias cla='c && la' 
+alias lt='ls -Gctlh'
+alias less='less -R'
+alias more='less'
+alias cdc='cd; c'
+alias mo='open -a Mou'
+alias so='open -a Sublime\ Text'
+
+# Git plugin overrides
+alias gc='git commit'
+alias go='git show'
+alias gs='git status -s'
+alias gst='git stash'
+alias gd='git diff'
+alias gD='git diff --word-diff'
+alias gdc='git diff --cached'
+alias gl='git lg'
+alias go='git clone'
+alias ge='git checkout'
+
+# Hacking aliases
+alias luna='ssh enigmoid@luna'
+alias edi='ssh root@192.168.2.15'
+
+# Functions
+
+olinmount() {
+	for share in $*;
+		do
+		mkdir /Volumes/$share;
+		mount -t smbfs //edorsky@fsvs01/$share /Volumes/$share;
+	done;
+}
+
+# Show all 256 colors with color number
+# Pass custom test, or defaults to Test
+function spectrum_ls() {
+  txt="The quick brown fox jumps over the lazy dog"
+  if (( $# > 0)); then
+    txt=$1
+  fi
+  for code in {000..255}; do
+    print -P -- "$code: %F{$code}$txt%f"
+  done
+}
+
+cpstat () {
+  tar cf - "$1" | pv | (cd "$2";tar xf -)
+}
+
+alias easter='ncal -e'
+
+alias sasquatch='sass --watch www/static/scss:www/static/css'
+alias edsync='rsync -avz --delete --exclude=tmp/ ~/Code/educanonllx/* educanontest:~/educanon/'
+
