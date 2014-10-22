@@ -10,21 +10,26 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
-set -o vi
-
-# Set custom theme
+# Enig config
 autoload -Uz promptinit
 promptinit
 prompt enigmoid
+
+set -o vi
+export EDITOR=vim
+
+alias viminstall='vim +BundleInstall +qall'
 
 alias pulseOn='cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/; sudo bash pulseOn; cd --'
 alias pulseOff='cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/; sudo bash pulseOff; cd --'
 alias zrc='vim ~/.zshrc'
 alias zre='. ~/.zshrc'
 alias b='brew'
+alias doctorb='brew doctor'
 alias o='open'
-alias p='python3'
+alias p3='python3'
+alias p='python2'
+alias ipn='ipython notebook --matplotlib inline'
 alias ip='ipython --matplotlib'
 alias q='qlmanage -p '
 alias calc='dc'
@@ -33,13 +38,15 @@ alias ij='cd ~/Notebook; ipython notebook --profile julia'
 
 alias ssheducanontest='ssh -R 52698:localhost:52698 educanontest'
 alias rrshell='ssh rshell'
-alias mat='matlab -nodesktop -nosplash'
+alias mat='. /opt/matlab/bin/matlab -nodesktop -nosplash'
 
-alias swatch='stylus -w stylus --out stylesheets'
+alias fswatch='stylus -w stylus --out static/stylesheets'
+
+alias eswatch='stylus -w stylus --out stylesheets'
 alias jerve='bundle exec jekyll serve -w'
 alias catch='coffee -wco js coffee'
 
-alias evan='cd ~/Git/enigmoid.github.io; swatch & catch & jerve'
+alias evan='cd ~/Git/enigmoid.github.io; eswatch & catch & jerve'
 
 alias jatch='jade -w jade --out .'
 alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
@@ -53,7 +60,7 @@ alias ll='ls -Glh'
 alias la='ls -Glah'
 alias cl='c && l'
 alias cll='c && ll'
-alias cla='c && la' 
+alias cla='c && la'
 alias lt='ls -Gctlh'
 alias less='less -R'
 alias more='less'
@@ -62,6 +69,7 @@ alias mo='open -a Mou'
 alias so='open -a Sublime\ Text'
 
 # Git plugin overrides
+alias ga='git add'
 alias gc='git commit'
 alias go='git show'
 alias gs='git status -s'
@@ -69,16 +77,54 @@ alias gst='git stash'
 alias gd='git diff'
 alias gD='git diff --word-diff'
 alias gdc='git diff --cached'
-alias gl='git lg'
+alias gl='git l'
 alias go='git clone'
 alias ge='git checkout'
+alias gu='git pull'
+
+# MADVLSI
+alias magic='magic -T SCN3ME_SUBM.30'
+alias vlsicd='cd /media/psf/Home/Semester/MADVLSI/Machine\ Problem\ 1/'
+alias mac='cd /media/psf/Home'
+
+# Bayesian
+alias bipn='cd ~/Semester/Bayesian/Notebook; ipn'
 
 # Hacking aliases
-alias luna='ssh enigmoid@luna'
-alias edi='ssh root@192.168.2.15'
+alias luna='ssh -Y enigmoid@evan-luna'
+alias buntu='ssh -Y enigmoid@10.211.55.3'
+alias suntu='prlctl start Ubuntu'
+alias spuntu='prlctl suspend Ubuntu'
+alias buntu-connect='prlctl set Ubuntu --device-connect '
+alias buntu-device-list='prlsrvctl info'
+alias edi='ssh root@esatellite.local'
+
+alias easter='ncal -e'
+
+alias sasquatch='sass --watch www/static/scss:www/static/css'
+alias edsync='rsync -avz --delete --exclude=tmp/ ~/Code/educanonllx/* educanontest:~/educanon/'
+alias cdprompt='cd ~/.zprezto/modules/prompt/functions'
+
+# Ubuntu
+alias sapt='sudo apt-get'
 
 # Functions
 
+# Show all 256 colors with color number
+function spectrum_ls() {
+  for code in {000..255}; do
+    print -P -- "$code: %F{$code}The words were colored.%f"
+  done
+}
+
+# Show all 256 colors where the background is set to specific color
+function spectrum_bls() {
+  for code in {000..255}; do
+    print -P -- "$BG[$code]$code: The colors were worded. %{$reset_color%}"
+  done
+}
+
+# Mount Olin Samba Shares
 olinmount() {
 	for share in $*;
 		do
@@ -87,24 +133,7 @@ olinmount() {
 	done;
 }
 
-# Show all 256 colors with color number
-# Pass custom test, or defaults to Test
-function spectrum_ls() {
-  txt="The quick brown fox jumps over the lazy dog"
-  if (( $# > 0)); then
-    txt=$1
-  fi
-  for code in {000..255}; do
-    print -P -- "$code: %F{$code}$txt%f"
-  done
-}
-
+# I wouldn't trust this
 cpstat () {
   tar cf - "$1" | pv | (cd "$2";tar xf -)
 }
-
-alias easter='ncal -e'
-
-alias sasquatch='sass --watch www/static/scss:www/static/css'
-alias edsync='rsync -avz --delete --exclude=tmp/ ~/Code/educanonllx/* educanontest:~/educanon/'
-
