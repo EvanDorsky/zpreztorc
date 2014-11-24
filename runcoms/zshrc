@@ -17,18 +17,18 @@ prompt enigmoid
 
 set -o vi
 export EDITOR=vim
+export TERM="xterm-256color"
 
 alias viminstall='vim +BundleInstall +qall'
 
-alias pulseOn='cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/; sudo bash pulseOn; cd --'
-alias pulseOff='cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/; sudo bash pulseOff; cd --'
 alias zrc='vim ~/.zshrc'
 alias zre='. ~/.zshrc'
 alias b='brew'
 alias doctorb='brew doctor'
 alias o='open'
-alias p3='python3'
-alias p='python2'
+alias ql='qlmanage -p'
+alias py3='python3'
+alias py='python2'
 alias ipn='ipython notebook --matplotlib inline'
 alias ip='ipython --matplotlib'
 alias q='qlmanage -p '
@@ -52,9 +52,11 @@ alias jatch='jade -w jade --out .'
 alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
 
 alias pandora='pianokeys && pianobar'
+alias internet='ping 8.8.8.8'
 
 # Basic aliases
-alias c='clear'
+alias c='pbcopy'
+alias p='pbpaste'
 alias l='ls -Gh'
 alias ll='ls -Glh'
 alias la='ls -Glah'
@@ -64,9 +66,11 @@ alias cla='c && la'
 alias lt='ls -Gctlh'
 alias less='less -R'
 alias more='less'
-alias cdc='cd; c'
+alias cdc='cd "`pbpaste`"'
+alias pwc='pwd|pbcopy'
 alias mo='open -a Mou'
 alias so='open -a Sublime\ Text'
+alias e='echo'
 
 # Git plugin overrides
 alias ga='git add'
@@ -84,8 +88,10 @@ alias gu='git pull'
 
 # MADVLSI
 alias magic='magic -T SCN3ME_SUBM.30'
-alias vlsicd='cd /media/psf/Home/Semester/MADVLSI/Machine\ Problem\ 1/'
+alias vlsicd='cd /media/psf/Home/Semester/MADVLSI/Machine\ Problem\ 4/'
 alias mac='cd /media/psf/Home'
+alias macdir='/media/psf/Home'
+alias ltspice='wine /Users/Enigmoid/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 
 # Bayesian
 alias bipn='cd ~/Semester/Bayesian/Notebook; ipn'
@@ -94,6 +100,7 @@ alias bipn='cd ~/Semester/Bayesian/Notebook; ipn'
 alias luna='ssh -Y enigmoid@evan-luna'
 alias buntu='ssh -Y enigmoid@10.211.55.3'
 alias suntu='prlctl start Ubuntu'
+alias stuntu='prlctl stop Ubuntu'
 alias spuntu='prlctl suspend Ubuntu'
 alias buntu-connect='prlctl set Ubuntu --device-connect '
 alias buntu-device-list='prlsrvctl info'
@@ -109,6 +116,19 @@ alias cdprompt='cd ~/.zprezto/modules/prompt/functions'
 alias sapt='sudo apt-get'
 
 # Functions
+
+function pulseon() {
+	cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/
+	sudo mv PulseTray.app.off PulseTray.app
+	cd --
+}
+
+function pulseoff() {
+	cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/
+	sudo mv PulseTray.app PulseTray.app.off
+	killall PulseTray
+	cd --
+}  
 
 # Show all 256 colors with color number
 function spectrum_ls() {
