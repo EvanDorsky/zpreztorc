@@ -98,7 +98,7 @@ alias bipn='cd ~/Semester/Bayesian/Notebook; ipn'
 
 # Hacking aliases
 alias luna='ssh -Y enigmoid@evan-luna'
-alias buntu='ssh -Y enigmoid@10.211.55.3'
+alias buntu='ssh -Y enigmoid@10.211.55.7'
 alias suntu='prlctl start Ubuntu'
 alias stuntu='prlctl stop Ubuntu'
 alias spuntu='prlctl suspend Ubuntu'
@@ -114,6 +114,7 @@ alias cdprompt='cd ~/.zprezto/modules/prompt/functions'
 
 # Ubuntu
 alias sapt='sudo apt-get'
+alias sapty='sudo apt-get -y'
 
 # Functions
 
