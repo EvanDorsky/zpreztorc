@@ -52,7 +52,7 @@ alias jatch='jade -w jade --out .'
 alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
 
 alias pandora='pianokeys && pianobar'
-alias internet='ping 8.8.8.8'
+alias internet='ping -a 8.8.8.8'
 
 # Basic aliases
 alias c='pbcopy'
@@ -66,11 +66,12 @@ alias cla='c && la'
 alias lt='ls -Gctlh'
 alias less='less -R'
 alias more='less'
-alias cdc='cd "`pbpaste`"'
 alias pwc='pwd|pbcopy'
+alias cdc='cd "`pbpaste`"'
 alias mo='open -a Mou'
 alias so='open -a Sublime\ Text'
 alias e='echo'
+alias lessit='`!!`|less'
 
 # Git plugin overrides
 alias ga='git add'
@@ -81,6 +82,7 @@ alias gst='git stash'
 alias gd='git diff'
 alias gD='git diff --word-diff'
 alias gdc='git diff --cached'
+alias gDc='git diff --word-diff --cached'
 alias gl='git l'
 alias go='git clone'
 alias ge='git checkout'
@@ -98,7 +100,7 @@ alias bipn='cd ~/Semester/Bayesian/Notebook; ipn'
 
 # Hacking aliases
 alias luna='ssh -Y enigmoid@evan-luna'
-alias buntu='ssh -Y enigmoid@10.211.55.7'
+alias buntu='ssh -Y enigmoid@10.211.55.10'
 alias suntu='prlctl start Ubuntu'
 alias stuntu='prlctl stop Ubuntu'
 alias spuntu='prlctl suspend Ubuntu'
@@ -117,6 +119,9 @@ alias sapt='sudo apt-get'
 alias sapty='sudo apt-get -y'
 
 # Functions
+
+# was going to make functions to cd after mv or cp, but then discovered
+# cd !$
 
 function pulseon() {
 	cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/
@@ -146,7 +151,7 @@ function spectrum_bls() {
 }
 
 # Mount Olin Samba Shares
-olinmount() {
+function olinmount() {
 	for share in $*;
 		do
 		mkdir /Volumes/$share;
@@ -155,6 +160,6 @@ olinmount() {
 }
 
 # I wouldn't trust this
-cpstat () {
+function cpstat () {
   tar cf - "$1" | pv | (cd "$2";tar xf -)
 }
