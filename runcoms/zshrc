@@ -21,8 +21,8 @@ export TERM="xterm-256color"
 
 alias viminstall='vim +BundleInstall +qall'
 
-alias zrc='vim ~/.zshrc'
-alias zre='. ~/.zshrc'
+# edit and autosave zshrc
+alias zrc='vim ~/.zshrc;. ~/.zshrc'
 alias b='brew'
 alias doctorb='brew doctor'
 alias o='open'
@@ -46,7 +46,7 @@ alias eswatch='stylus -w stylus --out stylesheets'
 alias jerve='bundle exec jekyll serve -w'
 alias catch='coffee -wco js coffee'
 
-alias evan='cd ~/Git/enigmoid.github.io; eswatch & catch & jerve'
+alias evan='cd ~/Git/enigmoid.github.io; eswatch & jerve'
 
 alias jatch='jade -w jade --out .'
 alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
@@ -71,7 +71,7 @@ alias cdc='cd "`pbpaste`"'
 alias mo='open -a Mou'
 alias so='open -a Sublime\ Text'
 alias e='echo'
-alias lessit='`!!`|less'
+alias deject='diskutil eject Desktop'
 
 # Git plugin overrides
 alias ga='git add'
@@ -107,6 +107,9 @@ alias spuntu='prlctl suspend Ubuntu'
 alias buntu-connect='prlctl set Ubuntu --device-connect '
 alias buntu-device-list='prlsrvctl info'
 alias edi='ssh root@esatellite.local'
+
+# Fun
+alias isjsup='echo GET / HTTP/1.1\\n\\n | nc olinjs.github.io 80 | head -n 1 | sed "s:\(.*404.*\):no:" | sed "s:\(.*200.*\):yes:" | say'
 
 alias easter='ncal -e'
 
