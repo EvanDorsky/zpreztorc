@@ -53,7 +53,7 @@ function prompt_enigmoid_setup {
   zstyle ':prezto:module:editor:info:keymap:primary' format ' %F{33}%B❯%F{39}❯%F{45}❯%f%b'
   fi
   zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format ' %F{red}♺%f'
-  zstyle ':prezto:module:editor:info:keymap:alternate' format ' %B%F{green}❮%F{yellow}❮%F{red}❮%f%b'
+  zstyle ':prezto:module:editor:info:keymap:alternate' format ' %B%F{45}❮%F{39}❮%F{33}❮%f%b'
 
   # Set git-info parameters.
   zstyle ':prezto:module:git:info' verbose 'yes'
