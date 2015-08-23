@@ -19,7 +19,20 @@ set -o vi
 export EDITOR=vim
 export TERM="xterm-256color"
 
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+function jj() {
+	j $* | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
+}
+
 alias viminstall='vim +BundleInstall +qall'
+
+# Mongo stuff
+export MONGOURI_TWOTER='mongodb://enigmoid:wasspord@ds045531.mongolab.com:45531/twoter'
+
+export FACEBOOK_clientID='839520142782453'
+export FACEBOOK_clientSecret='7be992bb6e4ffdd7510845c229b3670f'
+export FACEBOOK_callbackURL='http://localhost:3000/auth/facebook/callback'
 
 # edit and autosave zshrc
 alias zrc='vim ~/.zshrc;. ~/.zshrc'
@@ -33,12 +46,12 @@ alias ipn='ipython notebook --matplotlib inline'
 alias ip='ipython --matplotlib'
 alias q='qlmanage -p '
 alias calc='dc'
-alias j='julia'
 alias ij='cd ~/Notebook; ipython notebook --profile julia'
+alias re='eval $(thefuck $(fc -ln -1))'
 
 alias ssheducanontest='ssh -R 52698:localhost:52698 educanontest'
 alias rrshell='ssh rshell'
-alias mat='. /opt/matlab/bin/matlab -nodesktop -nosplash'
+alias mat='. /Applications/MATLAB_R2014b.app/bin/matlab -nodesktop -nosplash'
 
 alias fswatch='stylus -w stylus --out static/stylesheets'
 
@@ -46,7 +59,7 @@ alias eswatch='stylus -w stylus --out stylesheets'
 alias jerve='bundle exec jekyll serve -w'
 alias catch='coffee -wco js coffee'
 
-alias evan='cd ~/Git/enigmoid.github.io; eswatch & jerve'
+alias evan='cd ~/Git/enigmoid.github.io; jerve'
 
 alias jatch='jade -w jade --out .'
 alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
@@ -72,12 +85,18 @@ alias mo='open -a Mou'
 alias so='open -a Sublime\ Text'
 alias e='echo'
 alias deject='diskutil eject Desktop'
+alias ndm='nodemon --ignore public'
+
+# wiki aliases
+alias ndmw='ndm & ./watch.sh'
 
 # Git plugin overrides
+alias gi='git init'
 alias ga='git add'
 alias gc='git commit'
 alias go='git show'
-alias gs='git status -s'
+alias gs='git status'
+alias gsta='git status'
 alias gst='git stash'
 alias gd='git diff'
 alias gD='git diff --word-diff'
@@ -87,6 +106,7 @@ alias gl='git l'
 alias go='git clone'
 alias ge='git checkout'
 alias gu='git pull'
+alias grc='git rebase --continue'
 
 # MADVLSI
 alias magic='magic -T SCN3ME_SUBM.30'
@@ -166,3 +186,7 @@ function olinmount() {
 function cpstat () {
   tar cf - "$1" | pv | (cd "$2";tar xf -)
 }
+
+export NVM_DIR=~/.nvm
+source $NVM_DIR/nvm.sh
+[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
