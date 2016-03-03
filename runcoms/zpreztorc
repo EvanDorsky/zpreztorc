@@ -131,6 +131,7 @@ zstyle ':prezto:module:prompt' theme 'enigmoid'
 #   'main' \
 #   'brackets' \
 #   'pattern' \
+#   'line' \
 #   'cursor' \
 #   'root'
 #
