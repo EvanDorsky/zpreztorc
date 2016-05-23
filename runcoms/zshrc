@@ -15,17 +15,31 @@ autoload -Uz promptinit
 promptinit
 prompt enigmoid
 
+# prompt editing alias
+alias eprompt='vim /Users/Enigmoid/.zprezto/modules/prompt/functions/prompt_enigmoid_setup'
+
 set -o vi
 export EDITOR=vim
 export TERM="xterm-256color"
 
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+# autojump
+if [[ `uname` == "Darwin" ]]; then
+	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+fi
+
+export PKG_CONFIG_PATH=/usr/local/Cellar/libffi/3.0.13/lib/pkgconfig/
 
 function jj() {
 	j $* | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
 }
 
 alias viminstall='vim +BundleInstall +qall'
+
+# Workspaces
+alias w-seml='cd ~/Git/ee-seminar;so .'
+alias w-semr='cd ~/Git/ee-seminar;./watch.sh&jerve&;open http://localhost:4000/ee-seminar/'
+alias w-elecl='cd ~/Git/projectElecanisms;so .'
+alias w-elecr='cd ~/Git/projectElecanisms'
 
 # Mongo stuff
 export MONGOURI_TWOTER='mongodb://enigmoid:wasspord@ds045531.mongolab.com:45531/twoter'
@@ -48,10 +62,11 @@ alias q='qlmanage -p '
 alias calc='dc'
 alias ij='cd ~/Notebook; ipython notebook --profile julia'
 alias re='eval $(thefuck $(fc -ln -1))'
+alias ccat='pygmentize'
 
 alias ssheducanontest='ssh -R 52698:localhost:52698 educanontest'
 alias rrshell='ssh rshell'
-alias mat='. /Applications/MATLAB_R2014b.app/bin/matlab -nodesktop -nosplash'
+alias mat='. /Applications/MATLAB_R2015b.app/bin/matlab -nodesktop -nosplash'
 
 alias fswatch='stylus -w stylus --out static/stylesheets'
 
@@ -59,7 +74,7 @@ alias eswatch='stylus -w stylus --out stylesheets'
 alias jerve='bundle exec jekyll serve -w'
 alias catch='coffee -wco js coffee'
 
-alias evan='cd ~/Git/enigmoid.github.io; jerve'
+alias evansite='cd ~/Git/evandorsky.github.io; jerve & ./watch.sh'
 
 alias jatch='jade -w jade --out .'
 alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
@@ -83,8 +98,10 @@ alias pwc='pwd|pbcopy'
 alias cdc='cd "`pbpaste`"'
 alias mo='open -a Mou'
 alias so='open -a Sublime\ Text'
+alias a='atom'
 alias e='echo'
-alias deject='diskutil eject Desktop'
+alias deskject='diskutil eject Desktop'
+alias eject='diskutil eject'
 alias ndm='nodemon --ignore public'
 
 # wiki aliases
@@ -115,6 +132,15 @@ alias mac='cd /media/psf/Home'
 alias macdir='/media/psf/Home'
 alias ltspice='wine /Users/Enigmoid/.wine/drive_c/Program\ Files/LTC/LTspiceIV/scad3.exe'
 
+# Elecanisms
+alias eon="scons --site-dir ../site_scons"
+alias ebuild="../site_scons/bootloadercmd.py -i test.hex -w"
+
+# Wireless Comms
+alias uhdex="/usr/local/Cellar/uhd/003.009.001_2/lib/uhd/examples"
+export PATH=$PATH:"/usr/local/Cellar/uhd/003.009.001_2/lib/uhd/examples"
+alias rx_to_file="rx_samples_to_file --freq 2.4845e9 --type=float --gain=20 --rate 1e6"
+
 # Bayesian
 alias bipn='cd ~/Semester/Bayesian/Notebook; ipn'
 
@@ -127,6 +153,7 @@ alias spuntu='prlctl suspend Ubuntu'
 alias buntu-connect='prlctl set Ubuntu --device-connect '
 alias buntu-device-list='prlsrvctl info'
 alias edi='ssh root@esatellite.local'
+alias tchrome='"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --enable-avfoundation --flag-switches-begin --flag-switches-end --allow-file-access-from-files'
 
 # Fun
 alias isjsup='echo GET / HTTP/1.1\\n\\n | nc olinjs.github.io 80 | head -n 1 | sed "s:\(.*404.*\):no:" | sed "s:\(.*200.*\):yes:" | say'
@@ -146,17 +173,23 @@ alias sapty='sudo apt-get -y'
 # was going to make functions to cd after mv or cp, but then discovered
 # cd !$
 
+# copy the last command to a file
+function rb() {
+	tail -n +2 ~/.zhistory | head -n 1 >> ~/Dropbox/Time\ Capsule/dotfiles/reflection/cmd.txt
+}
+alias openrb='vim ~/Dropbox/Time\ Capsule/dotfiles/reflection/cmd.txt'
+
 function pulseon() {
 	cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/
 	sudo mv PulseTray.app.off PulseTray.app
-	cd --
+	cd -
 }
 
 function pulseoff() {
 	cd /Applications/Junos\ Pulse.app/Contents/Plugins/JamUI/
 	sudo mv PulseTray.app PulseTray.app.off
 	killall PulseTray
-	cd --
+	cd -
 }  
 
 # Show all 256 colors with color number
@@ -174,11 +207,19 @@ function spectrum_bls() {
 }
 
 # Mount Olin Samba Shares
-function olinmount() {
+function olinmnt() {
 	for share in $*;
 		do
 		mkdir /Volumes/$share;
 		mount -t smbfs //edorsky@fsvs01/$share /Volumes/$share;
+		cd /Volumes/$share;
+	done;
+}
+
+function ff-lenget {
+	for track in *.mp4;
+		do
+		ffmpeg -i $track 2>&1 | grep Duration | awk '{print $2}' | tr -d , >> lengths
 	done;
 }
 
@@ -187,6 +228,8 @@ function cpstat () {
   tar cf - "$1" | pv | (cd "$2";tar xf -)
 }
 
-export NVM_DIR=~/.nvm
-source $NVM_DIR/nvm.sh
-[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
+if [[ `uname` == "Darwin" ]]; then
+	export NVM_DIR=~/.nvm
+	source $NVM_DIR/nvm.sh
+	[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
+fi
