@@ -15,8 +15,11 @@ autoload -Uz promptinit
 promptinit
 prompt enigmoid
 
+export cloudpath="/Users/Enigmoid/Library/Mobile Documents/com~apple~CloudDocs"
+
+
 # prompt editing alias
-alias eprompt='vim /Users/Enigmoid/.zprezto/modules/prompt/functions/prompt_enigmoid_setup'
+alias eprompt='vim ~/.zprezto/modules/prompt/functions/prompt_enigmoid_setup'
 
 set -o vi
 export EDITOR=vim
@@ -28,10 +31,6 @@ if [[ `uname` == "Darwin" ]]; then
 fi
 
 export PKG_CONFIG_PATH=/usr/local/Cellar/libffi/3.0.13/lib/pkgconfig/
-
-function jj() {
-	j $* | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
-}
 
 alias viminstall='vim +BundleInstall +qall'
 
@@ -80,7 +79,8 @@ alias jatch='jade -w jade --out .'
 alias resumevan='cd ~/Git/resume; grunt jade-pygments; grunt watch'
 
 alias pandora='pianokeys && pianobar'
-alias internet='ping -a 8.8.8.8'
+alias int='ping -a 8.8.8.8'
+alias wl='wunderline'
 
 # Basic aliases
 alias c='pbcopy'
@@ -111,7 +111,7 @@ alias ndmw='ndm & ./watch.sh'
 alias gi='git init'
 alias ga='git add'
 alias gc='git commit'
-alias go='git show'
+# alias go='git show'
 alias gs='git status'
 alias gsta='git status'
 alias gst='git stash'
@@ -120,7 +120,7 @@ alias gD='git diff --word-diff'
 alias gdc='git diff --cached'
 alias gDc='git diff --word-diff --cached'
 alias gl='git l'
-alias go='git clone'
+# alias go='git clone'
 alias ge='git checkout'
 alias gu='git pull'
 alias grc='git rebase --continue'
@@ -146,6 +146,7 @@ alias bipn='cd ~/Semester/Bayesian/Notebook; ipn'
 
 # Hacking aliases
 alias luna='ssh -Y enigmoid@evan-luna'
+alias chip='ssh enigmoid@chip.local'
 alias buntu='ssh -Y enigmoid@10.211.55.10'
 alias suntu='prlctl start Ubuntu'
 alias stuntu='prlctl stop Ubuntu'
@@ -233,3 +234,15 @@ if [[ `uname` == "Darwin" ]]; then
 	source $NVM_DIR/nvm.sh
 	[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
 fi
+
+function allpaper() {
+	sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '$1'" && killall Dock
+}
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# export PATH="$PATH:$HOME/.rvm/bin"
+
+# source ~/.profile
+# export PATH="$PATH:$HOME/.rvm/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export PATH="~/.rvm/gems/ruby-2.0.0-p648/bin:$PATH"
